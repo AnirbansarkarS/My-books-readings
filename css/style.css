@@ -135,3 +135,52 @@ footer {
     0%, 100% { transform: translateY(0); }
     50% { transform: translateY(-10px); }
 }
+
+/* Add Book Form Styles */
+.add-book-form {
+    background: #fffcf5;
+    border: 1px solid #e8dbce;
+    border-radius: 8px;
+    padding: 20px;
+    margin-top: 15px;
+    margin-bottom: 25px;
+    box-shadow: 2px 4px 12px rgba(92, 78, 62, 0.1);
+}
+
+.add-book-form h3 {
+    margin-top: 0;
+    font-size: 1.1em;
+    color: #5c4e3e;
+}
+
+#addBookForm {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+#addBookForm input {
+    flex: 1;
+    min-width: 200px;
+    padding: 10px;
+    border: 1px solid #d4c8b8;
+    border-radius: 4px;
+    font-family: inherit;
+    background: #fbf8f1;
+}
+
+#addBookForm button {
+    padding: 10px 20px;
+    background: #6b8e23;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-family: inherit;
+    font-weight: bold;
+    transition: background 0.2s;
+}
+
+#addBookForm button:hover {
+    background: #556b2f;
+}

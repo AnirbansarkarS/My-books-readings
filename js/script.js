@@ -47,4 +47,62 @@ document.addEventListener('DOMContentLoaded', () => {
             coffeeCup.style.transform = '';
         }, 200);
     });
+
+    // --- Upcoming Books Functionality ---
+    const addBookForm = document.getElementById('addBookForm');
+    const upcomingBooksList = document.getElementById('upcomingBooksList');
+
+    // Load custom upcoming books from localStorage
+    function loadCustomBooks() {
+        const storedBooks = JSON.parse(localStorage.getItem('myUpcomingBooks')) || [];
+        storedBooks.forEach(book => addBookToDOM(book.title, book.cover));
+    }
+
+    // Function to add a book element to the DOM
+    function addBookToDOM(title, coverUrl) {
+        if (!coverUrl) {
+            coverUrl = 'https://via.placeholder.com/150x225?text=No+Cover';
+        }
+
+        const bookDiv = document.createElement('div');
+        bookDiv.classList.add('book');
+
+        bookDiv.innerHTML = `
+            <img src="${coverUrl}" alt="Book Cover">
+            <div class="title">${title}</div>
+            <div class="date">Upcoming</div>
+        `;
+
+        upcomingBooksList.appendChild(bookDiv);
+    }
+
+    // Handle form submission
+    if (addBookForm) {
+        addBookForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            const titleInput = document.getElementById('newBookTitle');
+            const coverInput = document.getElementById('newBookCover');
+            
+            const title = titleInput.value.trim();
+            const cover = coverInput.value.trim();
+            
+            if (title) {
+                // Add to DOM
+                addBookToDOM(title, cover);
+                
+                // Save to localStorage
+                const storedBooks = JSON.parse(localStorage.getItem('myUpcomingBooks')) || [];
+                storedBooks.push({ title: title, cover: cover });
+                localStorage.setItem('myUpcomingBooks', JSON.stringify(storedBooks));
+                
+                // Clear inputs
+                titleInput.value = '';
+                coverInput.value = '';
+            }
+        });
+    }
+
+    // Initialize custom books on load
+    loadCustomBooks();
 });

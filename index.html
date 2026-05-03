@@ -67,7 +67,18 @@
     </div>
 
     <h2>📚 To Read Next</h2>
-    <div class="books">
+    
+    <!-- Add Book Form -->
+    <div class="add-book-form">
+        <h3>Add an Upcoming Book</h3>
+        <form id="addBookForm">
+            <input type="text" id="newBookTitle" placeholder="Book Title" required>
+            <input type="text" id="newBookCover" placeholder="Cover Image URL (optional)">
+            <button type="submit">Add Book</button>
+        </form>
+    </div>
+
+    <div class="books" id="upcomingBooksList">
 
         <div class="book">
             <img src="https://covers.openlibrary.org/b/id/7984916-L.jpg">
