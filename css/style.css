@@ -68,6 +68,8 @@ h2 {
 
 .book:hover .book-actions {
     display: flex;
+    flex-wrap: wrap; /* Just in case buttons overflow on small screens */
+    width: fit-content;
 }
 
 .book-actions button {
