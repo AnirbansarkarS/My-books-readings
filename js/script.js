@@ -48,9 +48,78 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 200);
     });
 
-    // --- Upcoming Books Functionality ---
+    // --- Upcoming Books & All Books Functionality ---
     const addBookForm = document.getElementById('addBookForm');
     const upcomingBooksList = document.getElementById('upcomingBooksList');
+
+    // Add action buttons to hardcoded books on page load
+    document.querySelectorAll('.book').forEach(book => {
+        addBookActions(book);
+    });
+
+    // Helper to add edit/delete buttons to a book element
+    function addBookActions(bookElement) {
+        if (bookElement.querySelector('.book-actions')) return;
+
+        const actionsDiv = document.createElement('div');
+        actionsDiv.classList.add('book-actions');
+        actionsDiv.innerHTML = `
+            <button class="edit-btn" title="Edit">✏️</button>
+            <button class="delete-btn" title="Delete">🗑️</button>
+        `;
+        bookElement.appendChild(actionsDiv);
+    }
+
+    // Handle Edit and Delete clicks (Event Delegation)
+    document.body.addEventListener('click', (e) => {
+        if (e.target.closest('.delete-btn')) {
+            const bookEl = e.target.closest('.book');
+            const titleEl = bookEl.querySelector('.title');
+            if (confirm(`Are you sure you want to delete "${titleEl ? titleEl.innerText : 'this book'}"?`)) {
+                // Remove from DOM
+                bookEl.remove();
+                // Remove from LocalStorage if it exists there
+                removeBookFromStorage(titleEl.innerText);
+            }
+        }
+        
+        if (e.target.closest('.edit-btn')) {
+            const bookEl = e.target.closest('.book');
+            const titleEl = bookEl.querySelector('.title');
+            const imgEl = bookEl.querySelector('img');
+            
+            const oldTitle = titleEl.innerText;
+            const newTitle = prompt('Enter new title:', oldTitle);
+            
+            if (newTitle !== null && newTitle.trim() !== '') {
+                const newCover = prompt('Enter new cover image URL (leave blank to keep current):', imgEl.src);
+                
+                titleEl.innerText = newTitle.trim();
+                if (newCover !== null && newCover.trim() !== '') {
+                    imgEl.src = newCover.trim();
+                }
+                
+                // Update LocalStorage if it exists there
+                updateBookInStorage(oldTitle, newTitle.trim(), imgEl.src);
+            }
+        }
+    });
+
+    function removeBookFromStorage(title) {
+        let storedBooks = JSON.parse(localStorage.getItem('myUpcomingBooks')) || [];
+        storedBooks = storedBooks.filter(b => b.title !== title);
+        localStorage.setItem('myUpcomingBooks', JSON.stringify(storedBooks));
+    }
+
+    function updateBookInStorage(oldTitle, newTitle, newCover) {
+        let storedBooks = JSON.parse(localStorage.getItem('myUpcomingBooks')) || [];
+        const bookIndex = storedBooks.findIndex(b => b.title === oldTitle);
+        if (bookIndex > -1) {
+            storedBooks[bookIndex].title = newTitle;
+            storedBooks[bookIndex].cover = newCover;
+            localStorage.setItem('myUpcomingBooks', JSON.stringify(storedBooks));
+        }
+    }
 
     // Load custom upcoming books from localStorage
     function loadCustomBooks() {
@@ -72,7 +141,8 @@ document.addEventListener('DOMContentLoaded', () => {
             <div class="title">${title}</div>
             <div class="date">Upcoming</div>
         `;
-
+        
+        addBookActions(bookDiv);
         upcomingBooksList.appendChild(bookDiv);
     }
 
