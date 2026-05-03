@@ -154,6 +154,7 @@ document.addEventListener('DOMContentLoaded', () => {
         actionsDiv.innerHTML = `
             <button class="move-prev-btn" title="Move Left">⬅️</button>
             <button class="move-next-btn" title="Move Right">➡️</button>
+            <button class="move-section-btn" title="Change Section">🔄</button>
             <button class="edit-btn" title="Edit">✏️</button>
             <button class="delete-btn" title="Delete">🗑️</button>
         `;
@@ -177,6 +178,27 @@ document.addEventListener('DOMContentLoaded', () => {
             if (bookEl.nextElementSibling) {
                 bookEl.parentNode.insertBefore(bookEl.nextElementSibling, bookEl);
                 saveDatabase();
+            }
+        }
+
+        // --- Change Section ---
+        if (e.target.closest('.move-section-btn')) {
+            const bookEl = e.target.closest('.book');
+            const targetSection = prompt(
+                'Move to section number:\n1. ✅ Completed Books\n2. 📖 Currently Reading\n3. 📚 To Read Next', '1'
+            );
+            
+            let targetContainerId = '';
+            if (targetSection === '1') targetContainerId = 'completedBooksList';
+            else if (targetSection === '2') targetContainerId = 'readingBooksList';
+            else if (targetSection === '3') targetContainerId = 'upcomingBooksList';
+            
+            if (targetContainerId) {
+                const targetContainer = document.getElementById(targetContainerId);
+                if (targetContainer) {
+                    targetContainer.appendChild(bookEl); // Instantly moves it in the DOM
+                    saveDatabase(); // Saves the new location
+                }
             }
         }
 
