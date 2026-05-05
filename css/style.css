@@ -217,3 +217,77 @@ footer {
 #addBookForm button:hover {
     background: #556b2f;
 }
+
+/* Wishlist Side Panel Styles */
+.wishlist-btn {
+    position: absolute;
+    top: 25px;
+    right: 20px;
+    background: none;
+    border: none;
+    color: #f5f3ef;
+    font-size: 30px;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+header {
+    position: relative; /* Ensure the absolute button positions correctly! */
+}
+
+.wishlist-btn:hover {
+    transform: scale(1.1);
+}
+
+.side-panel {
+    position: fixed;
+    top: 0;
+    right: -400px; /* Hidden by default */
+    width: 350px;
+    max-width: 90%;
+    height: 100vh;
+    background-color: #f7eed8;
+    background-image: url('https://www.transparenttextures.com/patterns/cream-paper.png');
+    box-shadow: -4px 0 15px rgba(0, 0, 0, 0.2);
+    transition: right 0.4s ease;
+    z-index: 1000;
+    overflow-y: auto;
+    padding: 20px;
+    border-left: 2px solid #bba171;
+}
+
+.side-panel.open {
+    right: 0;
+}
+
+.side-panel-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 2px dashed #bba171;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+}
+
+.side-panel-header h2 {
+    margin: 0;
+    border-bottom: none;
+    padding-bottom: 0;
+}
+
+.close-btn {
+    background: none;
+    border: none;
+    font-size: 30px;
+    color: #5c4e3e;
+    cursor: pointer;
+    line-height: 1;
+}
+
+.close-btn:hover {
+    color: #8b7a65;
+}
+
+.side-books {
+    grid-template-columns: 1fr; /* 1 column layout in the side panel */
+}
