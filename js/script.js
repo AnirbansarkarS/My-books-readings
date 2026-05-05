@@ -308,6 +308,27 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // --- Theme Toggle Logic ---
+    const themeToggleBtn = document.getElementById('themeToggleBtn');
+    
+    // Load saved theme preference
+    if (localStorage.getItem('myBooksTheme') === 'dark') {
+        document.body.classList.add('dark-mode');
+        if (themeToggleBtn) themeToggleBtn.innerText = '☀️';
+    }
+
+    if (themeToggleBtn) {
+        themeToggleBtn.addEventListener('click', () => {
+            document.body.classList.toggle('dark-mode');
+            const isDark = document.body.classList.contains('dark-mode');
+            
+            themeToggleBtn.innerText = isDark ? '☀️' : '🌙';
+            themeToggleBtn.title = isDark ? 'Toggle Light Mode' : 'Toggle Dark Mode';
+            
+            localStorage.setItem('myBooksTheme', isDark ? 'dark' : 'light');
+        });
+    }
+
     // Cozy Interaction
     const coffeeCup = document.getElementById('coffeeCup');
     const cozyIcons = ['☕', '🍵', '🕯️', '📚', '🍪'];
