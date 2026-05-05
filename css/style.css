@@ -289,5 +289,25 @@ header {
 }
 
 .side-books {
-    grid-template-columns: 1fr; /* 1 column layout in the side panel */
+    grid-template-columns: 1fr 1fr; /* 2 column layout in the side panel */
+    gap: 15px; /* Smaller gap */
+}
+
+/* Small card adjustments for side panel books */
+.side-books .book {
+    padding: 10px;
+}
+
+.side-books .title {
+    font-size: 0.9em;
+    margin-top: 10px;
+}
+
+.side-books .date {
+    font-size: 11px;
+}
+
+.side-books .book-actions button {
+    font-size: 12px;
+    padding: 2px;
 }
