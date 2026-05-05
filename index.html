@@ -10,6 +10,8 @@
 
 <header>
     📖 My Cozy Reading Journey
+    <button id="themeToggleBtn" class="theme-btn" title="Toggle Dark/Light Mode">🌙</button>
+    <button id="openWishlistBtn" class="wishlist-btn" title="Open Wishlist">☰</button>
 </header>
 
 <div class="container">
@@ -94,6 +96,28 @@
 
     </div>
 
+</div>
+
+<!-- The Side panel for Wishlist -->
+<div id="wishlistPanel" class="side-panel">
+    <div class="side-panel-header">
+        <h2>🔮 Wishlist</h2>
+        <button id="closeWishlistBtn" class="close-btn">&times;</button>
+    </div>
+    
+    <!-- Add to Wishlist Form -->
+    <div class="add-book-form">
+        <h3>Add to Wishlist</h3>
+        <form id="addWishlistForm">
+            <input type="text" id="newWishlistTitle" placeholder="Book Title" required>
+            <input type="text" id="newWishlistCover" placeholder="Cover Image URL (optional)">
+            <button type="submit" style="width: 100%; margin-top: 10px;">Add</button>
+        </form>
+    </div>
+
+    <div class="books side-books" id="somedayBooksList">
+        <!-- Add books you might read in the distant future -->
+    </div>
 </div>
 
 <footer>

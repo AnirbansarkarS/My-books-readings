@@ -7,7 +7,8 @@ document.addEventListener('DOMContentLoaded', () => {
         const db = {
             completed: extractBooks('completedBooksList'),
             reading: extractBooks('readingBooksList'),
-            upcoming: extractBooks('upcomingBooksList')
+            upcoming: extractBooks('upcomingBooksList'),
+            someday: extractBooks('somedayBooksList')
         };
         localStorage.setItem('myBooksDB', JSON.stringify(db));
     }
@@ -44,6 +45,7 @@ document.addEventListener('DOMContentLoaded', () => {
             renderBooks('completedBooksList', db.completed);
             renderBooks('readingBooksList', db.reading);
             renderBooks('upcomingBooksList', db.upcoming);
+            renderBooks('somedayBooksList', db.someday);
         } else {
             // First time loading: sync the existing HTML into the DB
             // Then add action buttons and progress bars to them
@@ -185,13 +187,14 @@ document.addEventListener('DOMContentLoaded', () => {
         if (e.target.closest('.move-section-btn')) {
             const bookEl = e.target.closest('.book');
             const targetSection = prompt(
-                'Move to section number:\n1. ✅ Completed Books\n2. 📖 Currently Reading\n3. 📚 To Read Next', '1'
+                'Move to section number:\n1. ✅ Completed Books\n2. 📖 Currently Reading\n3. 📚 To Read Next\n4. 🔮 Someday / Maybe', '1'
             );
             
             let targetContainerId = '';
             if (targetSection === '1') targetContainerId = 'completedBooksList';
             else if (targetSection === '2') targetContainerId = 'readingBooksList';
             else if (targetSection === '3') targetContainerId = 'upcomingBooksList';
+            else if (targetSection === '4') targetContainerId = 'somedayBooksList';
             
             if (targetContainerId) {
                 const targetContainer = document.getElementById(targetContainerId);
@@ -265,8 +268,66 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // Handle Add Wishlist form submission
+    const addWishlistForm = document.getElementById('addWishlistForm');
+    if (addWishlistForm) {
+        addWishlistForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            const titleInput = document.getElementById('newWishlistTitle');
+            const coverInput = document.getElementById('newWishlistCover');
+            
+            const title = titleInput.value.trim();
+            const cover = coverInput.value.trim();
+            
+            if (title) {
+                addBookToDOM('somedayBooksList', title, cover, 'Someday');
+                saveDatabase();
+                
+                titleInput.value = '';
+                coverInput.value = '';
+            }
+        });
+    }
+
     // Initialize Database
     loadDatabase();
+
+    // Side panel logic
+    const openWishlistBtn = document.getElementById('openWishlistBtn');
+    const closeWishlistBtn = document.getElementById('closeWishlistBtn');
+    const wishlistPanel = document.getElementById('wishlistPanel');
+
+    if (openWishlistBtn && closeWishlistBtn && wishlistPanel) {
+        openWishlistBtn.addEventListener('click', () => {
+            wishlistPanel.classList.add('open');
+        });
+        
+        closeWishlistBtn.addEventListener('click', () => {
+            wishlistPanel.classList.remove('open');
+        });
+    }
+
+    // --- Theme Toggle Logic ---
+    const themeToggleBtn = document.getElementById('themeToggleBtn');
+    
+    // Load saved theme preference
+    if (localStorage.getItem('myBooksTheme') === 'dark') {
+        document.body.classList.add('dark-mode');
+        if (themeToggleBtn) themeToggleBtn.innerText = '☀️';
+    }
+
+    if (themeToggleBtn) {
+        themeToggleBtn.addEventListener('click', () => {
+            document.body.classList.toggle('dark-mode');
+            const isDark = document.body.classList.contains('dark-mode');
+            
+            themeToggleBtn.innerText = isDark ? '☀️' : '🌙';
+            themeToggleBtn.title = isDark ? 'Toggle Light Mode' : 'Toggle Dark Mode';
+            
+            localStorage.setItem('myBooksTheme', isDark ? 'dark' : 'light');
+        });
+    }
 
     // Cozy Interaction
     const coffeeCup = document.getElementById('coffeeCup');

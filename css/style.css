@@ -217,3 +217,281 @@ footer {
 #addBookForm button:hover {
     background: #556b2f;
 }
+
+/* Wishlist Side Panel Styles */
+.wishlist-btn {
+    position: absolute;
+    top: 25px;
+    right: 20px;
+    background: none;
+    border: none;
+    color: #f5f3ef;
+    font-size: 30px;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+header {
+    position: relative; /* Ensure the absolute button positions correctly! */
+}
+
+.wishlist-btn:hover {
+    transform: scale(1.1);
+}
+
+.side-panel {
+    position: fixed;
+    top: 0;
+    right: -400px; /* Hidden by default */
+    width: 350px;
+    max-width: 90%;
+    height: 100vh;
+    background-color: #f7eed8;
+    background-image: url('https://www.transparenttextures.com/patterns/cream-paper.png');
+    box-shadow: -4px 0 15px rgba(0, 0, 0, 0.2);
+    transition: right 0.4s ease;
+    z-index: 1000;
+    overflow-y: auto;
+    padding: 20px;
+    border-left: 2px solid #bba171;
+}
+
+.side-panel.open {
+    right: 0;
+}
+
+.side-panel-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 2px dashed #bba171;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+}
+
+.side-panel-header h2 {
+    margin: 0;
+    border-bottom: none;
+    padding-bottom: 0;
+}
+
+.close-btn {
+    background: none;
+    border: none;
+    font-size: 30px;
+    color: #5c4e3e;
+    cursor: pointer;
+    line-height: 1;
+}
+
+.close-btn:hover {
+    color: #8b7a65;
+}
+
+.side-books {
+    grid-template-columns: 1fr 1fr; /* 2 column layout in the side panel */
+    gap: 15px; /* Smaller gap */
+}
+
+/* Small card adjustments for side panel books */
+.side-books .book {
+    padding: 10px;
+}
+
+.side-books .title {
+    font-size: 0.9em;
+    margin-top: 10px;
+}
+
+.side-books .date {
+    font-size: 11px;
+}
+
+.side-books .book-actions button {
+    font-size: 12px;
+    padding: 2px;
+}
+
+/* ---------- DARK MODE STYLES ---------- */
+body.dark-mode {
+    background-color: #2c2925;
+    background-image: url('https://www.transparenttextures.com/patterns/dark-leather.png');
+    color: #e6dfd1;
+}
+
+body.dark-mode header {
+    background: #3e5218;
+    background-image: linear-gradient(135deg, #3e5218, #2a3a12);
+}
+
+body.dark-mode .book {
+    background: #3b3732;
+    border-color: #5c554c;
+    box-shadow: 2px 4px 12px rgba(0, 0, 0, 0.4);
+}
+
+body.dark-mode .book:hover {
+    box-shadow: 4px 8px 20px rgba(0, 0, 0, 0.6);
+}
+
+body.dark-mode .book-actions {
+    background: rgba(59, 55, 50, 0.95);
+}
+
+body.dark-mode .book-actions button {
+    color: #e6dfd1;
+}
+
+body.dark-mode .book-actions button:hover {
+    background: #5c554c;
+}
+
+body.dark-mode .title {
+    color: #f7f1e6;
+}
+
+body.dark-mode .date {
+    color: #aaa294;
+}
+
+body.dark-mode h2 {
+    border-bottom: 2px dashed #786c5a;
+    color: #d1c8b8;
+}
+
+body.dark-mode .add-book-form {
+    background: #3b3732;
+    border-color: #5c554c;
+    box-shadow: 2px 4px 12px rgba(0, 0, 0, 0.4);
+}
+
+body.dark-mode .add-book-form h3 {
+    color: #d1c8b8;
+}
+
+body.dark-mode input {
+    background: #2c2925 !important;
+    border-color: #5c554c !important;
+    color: #e6dfd1 !important;
+}
+
+body.dark-mode .side-panel {
+    background-color: #2c2925;
+    background-image: url('https://www.transparenttextures.com/patterns/dark-leather.png');
+    border-left-color: #786c5a;
+    box-shadow: -4px 0 15px rgba(0, 0, 0, 0.5);
+}
+
+body.dark-mode .side-panel-header {
+    border-bottom-color: #786c5a;
+}
+
+body.dark-mode .close-btn {
+    color: #d1c8b8;
+}
+
+body.dark-mode .close-btn:hover {
+    color: #fff;
+}
+
+body.dark-mode .cozy-element {
+    background: #3b3732;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.4);
+}
+
+/* Theme Toggle Button */
+.theme-btn {
+    position: absolute;
+    top: 25px;
+    right: 70px;
+    background: none;
+    border: none;
+    color: #f5f3ef;
+    font-size: 26px;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.theme-btn:hover {
+    transform: scale(1.1);
+}
+
+/* ---------- COOL EFFECTS & ANIMATIONS ---------- */
+body {
+    transition: background-color 0.4s ease, color 0.4s ease;
+}
+
+.book {
+    animation: fadeInSlideUp 0.6s ease-out forwards;
+    opacity: 0;
+    will-change: transform, opacity;
+}
+
+/* Stagger animations automatically using nth-child */
+.book:nth-child(1) { animation-delay: 0.1s; }
+.book:nth-child(2) { animation-delay: 0.2s; }
+.book:nth-child(3) { animation-delay: 0.3s; }
+.book:nth-child(4) { animation-delay: 0.4s; }
+.book:nth-child(5) { animation-delay: 0.5s; }
+.book:nth-child(n+6) { animation-delay: 0.6s; }
+
+@keyframes fadeInSlideUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ---------- RESPONSIVENESS ---------- */
+@media (max-width: 768px) {
+    header {
+        font-size: 24px;
+        padding: 20px;
+    }
+    
+    .theme-btn { right: 60px; top: 15px; font-size: 22px; }
+    .wishlist-btn { right: 15px; top: 15px; font-size: 26px; }
+
+    .books {
+        grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+        gap: 15px;
+    }
+    
+    .side-panel {
+        width: 100vw;
+        right: -100vw;
+    }
+}
+
+@media (max-width: 480px) {
+    .books {
+        grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    }
+    #addBookForm {
+        flex-direction: column;
+    }
+    #addBookForm input, #addBookForm button {
+        width: 100%;
+    }
+}
+
+/* Fix for unclickable buttons in the header */
+header {
+    position: relative !important;
+    z-index: 10;
+}
+.wishlist-btn, .theme-btn {
+    position: absolute !important;
+    z-index: 1000 !important;
+    pointer-events: auto !important;
+}
+
+@media (max-width: 768px) {
+    .side-panel.open {
+        right: 0 !important;
+    }
+}
