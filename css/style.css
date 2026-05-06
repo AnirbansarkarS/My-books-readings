@@ -1,53 +1,59 @@
 body {
-    font-family: 'Georgia', serif;
-    background-color: #f7eed8; /* Warm paper tone */
-    background-image: url('https://www.transparenttextures.com/patterns/cream-paper.png'); /* Paper texture */
-    color: #4a3f35; /* Dark brown for a cozy feel */
+    font-family: 'Space Grotesk', sans-serif;
+    background-color: #fcf9f2; /* Lighter warm paper tone */
+    background-image: url('https://www.transparenttextures.com/patterns/clean-text-pattern.png'); /* Subtler texture */
+    color: #3b3228;
     margin: 0;
     padding: 0;
     line-height: 1.6;
 }
 
 header {
-    background: #6b8e23;
-    background-image: linear-gradient(135deg, #6b8e23, #556b2f);
-    color: #f5f3ef;
+    background: rgba(107, 142, 35, 0.95);
+    background-image: linear-gradient(135deg, rgba(107, 142, 35, 0.95), rgba(85, 107, 47, 0.95));
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    color: #fafff0;
     text-align: center;
-    padding: 30px;
-    font-size: 32px;
-    letter-spacing: 2px;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-    text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
+    padding: 35px 20px;
+    font-size: 36px;
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    letter-spacing: 1px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    border-bottom: 3px solid #bba171;
 }
 
 .container {
-    padding: 30px 20px;
-    max-width: 1000px;
+    padding: 40px 20px;
+    max-width: 1100px;
     margin: auto;
 }
 
 h2 {
-    border-bottom: 2px dashed #bba171;
-    padding-bottom: 8px;
-    margin-top: 40px;
-    color: #5c4e3e;
+    font-family: 'Playfair Display', serif;
+    border-bottom: 2px solid #e0d0b8;
+    padding-bottom: 12px;
+    margin-top: 50px;
+    margin-bottom: 25px;
+    color: #4a3f35;
     font-style: italic;
+    font-size: 28px;
 }
 
 .books {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-    gap: 30px;
-    margin-top: 25px;
+    grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+    gap: 35px;
 }
 
 .book {
-    background: #fffcf5;
-    border-radius: 8px;
-    padding: 15px;
-    box-shadow: 2px 4px 12px rgba(92, 78, 62, 0.15);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    border: 1px solid #e8dbce;
+    background: #ffffff;
+    border-radius: 12px;
+    padding: 18px;
+    box-shadow: 0 10px 25px rgba(92, 78, 62, 0.08);
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    border: 1px solid #f0e8db;
     position: relative;
     display: flex;
     flex-direction: column;
@@ -83,33 +89,41 @@ h2 {
 }
 
 .book-actions button:hover {
-    background: #e8dbce;
+    background: #f0e8db;
+    transform: scale(1.1);
 }
 
 .book:hover {
-    transform: translateY(-8px) scale(1.02);
-    box-shadow: 4px 8px 20px rgba(92, 78, 62, 0.25);
+    transform: translateY(-10px);
+    box-shadow: 0 15px 35px rgba(92, 78, 62, 0.15);
 }
 
 .book img {
     width: 100%;
-    border-radius: 6px;
+    border-radius: 8px;
     aspect-ratio: 2/3;
     object-fit: cover;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease;
+}
+
+.book:hover img {
+    transform: scale(1.03);
 }
 
 .title {
-    font-weight: bold;
-    margin-top: 15px;
-    font-size: 1.1em;
-    color: #3b3228;
+    font-weight: 600;
+    margin-top: 18px;
+    font-size: 1.15em;
+    color: #2c251d;
+    line-height: 1.3;
 }
 
 .date {
     font-size: 13px;
     color: #8b7a65;
-    margin-top: 5px;
+    margin-top: 8px;
+    font-weight: 300;
 }
 
 /* Reading Tracker Styles */
@@ -137,85 +151,108 @@ h2 {
 
 .progress-fill {
     height: 100%;
-    background: #6b8e23;
+    background: linear-gradient(90deg, #8ba84a, #6b8e23);
     border-radius: 4px;
-    transition: width 1s ease-in-out;
+    transition: width 1s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 footer {
     text-align: center;
-    margin: 60px 0 30px;
+    margin: 80px 0 40px;
     color: #8b7a65;
     font-size: 14px;
-    padding-top: 20px;
-    border-top: 1px dotted #bba171;
+    padding-top: 30px;
+    border-top: 1px dashed #d4c8b8;
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
 }
 
 .cozy-element {
     position: fixed;
-    bottom: 20px;
-    right: 20px;
-    font-size: 40px;
-    animation: bounce 2s infinite;
+    bottom: 25px;
+    right: 25px;
+    font-size: 35px;
+    animation: float 3s ease-in-out infinite;
     cursor: pointer;
-    background: #fffcf5;
+    background: #ffffff;
     border-radius: 50%;
-    padding: 10px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    padding: 12px;
+    box-shadow: 0 5px 15px rgba(92, 78, 62, 0.15);
+    transition: transform 0.3s ease;
 }
 
-@keyframes bounce {
+.cozy-element:hover {
+    transform: scale(1.1) rotate(10deg);
+}
+
+@keyframes float {
     0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-10px); }
+    50% { transform: translateY(-12px); }
 }
 
 /* Add Book Form Styles */
 .add-book-form {
-    background: #fffcf5;
-    border: 1px solid #e8dbce;
-    border-radius: 8px;
-    padding: 20px;
-    margin-top: 15px;
-    margin-bottom: 25px;
-    box-shadow: 2px 4px 12px rgba(92, 78, 62, 0.1);
+    background: #ffffff;
+    border: 1px solid #f0e8db;
+    border-radius: 12px;
+    padding: 25px;
+    margin-top: 20px;
+    margin-bottom: 35px;
+    box-shadow: 0 8px 20px rgba(92, 78, 62, 0.05);
 }
 
 .add-book-form h3 {
     margin-top: 0;
-    font-size: 1.1em;
-    color: #5c4e3e;
+    margin-bottom: 15px;
+    font-size: 1.25em;
+    color: #4a3f35;
+    font-family: 'Playfair Display', serif;
 }
 
 #addBookForm {
     display: flex;
-    gap: 10px;
+    gap: 15px;
     flex-wrap: wrap;
+    align-items: center;
 }
 
 #addBookForm input {
     flex: 1;
-    min-width: 200px;
-    padding: 10px;
-    border: 1px solid #d4c8b8;
-    border-radius: 4px;
-    font-family: inherit;
-    background: #fbf8f1;
+    min-width: 250px;
+    padding: 12px 15px;
+    border: 1px solid #e0d0b8;
+    border-radius: 6px;
+    font-family: 'Space Grotesk', sans-serif;
+    background: #fbf9f5;
+    transition: all 0.3s ease;
+    font-size: 15px;
+}
+
+#addBookForm input:focus {
+    outline: none;
+    border-color: #6b8e23;
+    box-shadow: 0 0 0 3px rgba(107, 142, 35, 0.15);
+    background: #ffffff;
 }
 
 #addBookForm button {
-    padding: 10px 20px;
+    padding: 12px 25px;
     background: #6b8e23;
-    color: #fff;
+    color: #ffffff;
     border: none;
-    border-radius: 4px;
+    border-radius: 6px;
     cursor: pointer;
-    font-family: inherit;
-    font-weight: bold;
-    transition: background 0.2s;
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 600;
+    font-size: 15px;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 10px rgba(107, 142, 35, 0.2);
 }
 
 #addBookForm button:hover {
     background: #556b2f;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(107, 142, 35, 0.3);
 }
 
 /* Wishlist Side Panel Styles */
@@ -309,94 +346,102 @@ header {
 
 .side-books .book-actions button {
     font-size: 12px;
-    padding: 2px;
+    padding: 3px;
 }
 
 /* ---------- DARK MODE STYLES ---------- */
 body.dark-mode {
-    background-color: #2c2925;
-    background-image: url('https://www.transparenttextures.com/patterns/dark-leather.png');
-    color: #e6dfd1;
+    background-color: #1e1c1a;
+    background-image: url('https://www.transparenttextures.com/patterns/black-linen.png');
+    color: #e8e3d8;
 }
 
 body.dark-mode header {
-    background: #3e5218;
-    background-image: linear-gradient(135deg, #3e5218, #2a3a12);
-}
-
-body.dark-mode .book {
-    background: #3b3732;
-    border-color: #5c554c;
-    box-shadow: 2px 4px 12px rgba(0, 0, 0, 0.4);
-}
-
-body.dark-mode .book:hover {
-    box-shadow: 4px 8px 20px rgba(0, 0, 0, 0.6);
-}
-
-body.dark-mode .book-actions {
-    background: rgba(59, 55, 50, 0.95);
-}
-
-body.dark-mode .book-actions button {
-    color: #e6dfd1;
-}
-
-body.dark-mode .book-actions button:hover {
-    background: #5c554c;
-}
-
-body.dark-mode .title {
-    color: #f7f1e6;
-}
-
-body.dark-mode .date {
-    color: #aaa294;
+    background: rgba(45, 60, 18, 0.95);
+    background-image: linear-gradient(135deg, rgba(62, 82, 24, 0.95), rgba(42, 58, 18, 0.95));
+    border-bottom: 3px solid #5c554c;
+    color: #f0eadd;
 }
 
 body.dark-mode h2 {
-    border-bottom: 2px dashed #786c5a;
-    color: #d1c8b8;
+    color: #d6ccbd;
+    border-bottom-color: #5c554c;
+}
+
+body.dark-mode .book {
+    background: #2a2724;
+    border-color: #3b3732;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+}
+
+body.dark-mode .book:hover {
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6);
+}
+
+body.dark-mode .book-actions {
+    background: rgba(42, 39, 36, 0.95);
+    border: 1px solid #4a453f;
+}
+
+body.dark-mode .book-actions button {
+    color: #e8e3d8;
+}
+
+body.dark-mode .book-actions button:hover {
+    background: #4a453f;
+}
+
+body.dark-mode .title {
+    color: #f0eadd;
+}
+
+body.dark-mode .date {
+    color: #9e9587;
 }
 
 body.dark-mode .add-book-form {
-    background: #3b3732;
-    border-color: #5c554c;
-    box-shadow: 2px 4px 12px rgba(0, 0, 0, 0.4);
+    background: #2a2724;
+    border-color: #3b3732;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
 }
 
 body.dark-mode .add-book-form h3 {
-    color: #d1c8b8;
+    color: #d6ccbd;
 }
 
 body.dark-mode input {
-    background: #2c2925 !important;
-    border-color: #5c554c !important;
-    color: #e6dfd1 !important;
+    background: #201e1b !important;
+    border-color: #4a453f !important;
+    color: #e8e3d8 !important;
+}
+
+body.dark-mode input:focus {
+    border-color: #8ba84a !important;
+    box-shadow: 0 0 0 3px rgba(139, 168, 74, 0.2) !important;
 }
 
 body.dark-mode .side-panel {
-    background-color: #2c2925;
-    background-image: url('https://www.transparenttextures.com/patterns/dark-leather.png');
-    border-left-color: #786c5a;
-    box-shadow: -4px 0 15px rgba(0, 0, 0, 0.5);
+    background-color: #1e1c1a;
+    background-image: url('https://www.transparenttextures.com/patterns/black-linen.png');
+    border-left-color: #4a453f;
+    box-shadow: -5px 0 25px rgba(0, 0, 0, 0.6);
 }
 
 body.dark-mode .side-panel-header {
-    border-bottom-color: #786c5a;
+    border-bottom-color: #4a453f;
 }
 
 body.dark-mode .close-btn {
-    color: #d1c8b8;
+    color: #d6ccbd;
 }
 
 body.dark-mode .close-btn:hover {
-    color: #fff;
+    color: #ffffff;
 }
 
 body.dark-mode .cozy-element {
-    background: #3b3732;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.4);
+    background: #2a2724;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.5);
 }
 
 /* Theme Toggle Button */
