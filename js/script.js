@@ -293,6 +293,25 @@ document.addEventListener('DOMContentLoaded', () => {
     // Initialize Database
     loadDatabase();
 
+    // --- Initialize Drag and Drop (SortableJS) ---
+    const listContainers = ['completedBooksList', 'readingBooksList', 'upcomingBooksList', 'somedayBooksList'];
+    listContainers.forEach(containerId => {
+        const el = document.getElementById(containerId);
+        if (el) {
+            new Sortable(el, {
+                group: 'sharedBooks', // Set all lists to same group to allow dragging between them
+                animation: 250, // Animation speed in ms
+                ghostClass: 'sortable-ghost', // Class name for the drop placeholder
+                dragClass: 'sortable-drag', // Class name for the dragging item
+                easing: "cubic-bezier(1, 0, 0, 1)",
+                onEnd: function () {
+                    // Automatically save the new database order when a drop finishes
+                    saveDatabase();
+                }
+            });
+        }
+    });
+
     // Side panel logic
     const openWishlistBtn = document.getElementById('openWishlistBtn');
     const closeWishlistBtn = document.getElementById('closeWishlistBtn');
