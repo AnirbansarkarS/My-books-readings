@@ -57,6 +57,26 @@ h2 {
     position: relative;
     display: flex;
     flex-direction: column;
+    cursor: grab; /* Indicate draggable */
+}
+
+.book:active {
+    cursor: grabbing; /* Show grab action */
+}
+
+/* SortableJS Drag & Drop Classes */
+.sortable-ghost {
+    opacity: 0.4;
+    background: #fbf9f5;
+    border: 2px dashed #bba171;
+    transform: scale(0.98);
+}
+
+.sortable-drag {
+    opacity: 1 !important;
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.2) !important;
+    transform: scale(1.05) !important;
+    z-index: 100;
 }
 
 /* Book Action Buttons (Edit/Delete) */
@@ -372,6 +392,15 @@ body.dark-mode .book {
     background: #2a2724;
     border-color: #3b3732;
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+}
+
+body.dark-mode .sortable-ghost {
+    background: #1e1c1a;
+    border-color: #5c554c;
+}
+
+body.dark-mode .sortable-drag {
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.8) !important;
 }
 
 body.dark-mode .book:hover {
