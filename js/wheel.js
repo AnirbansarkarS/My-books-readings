@@ -3,30 +3,103 @@ document.addEventListener('DOMContentLoaded', () => {
     const ctx = canvas.getContext('2d');
     const spinBtn = document.getElementById('spinBtn');
     const resultDisplay = document.getElementById('resultDisplay');
+    const configList = document.getElementById('bookConfigList');
 
-    let books = [];
+    let wheelData = []; // Array of { title: 'Book Name', weight: 50 }
+    const defaultWeight = 50;
     
     // Load books from localStorage
     function loadBooks() {
         const dbString = localStorage.getItem('myBooksDB');
+        let wishlistTitles = [];
+        
         if (dbString) {
             const db = JSON.parse(dbString);
-            // Combine upcoming and someday (wishlist) for the wheel
-            books = [...(db.someday || []), ...(db.upcoming || [])].map(b => b.title);
+            // ONLY from someday (wishlist)
+            wishlistTitles = (db.someday || []).map(b => b.title).filter(b => b.trim() !== '');
         }
+
+        const savedWheelStr = localStorage.getItem('wheelData');
+        let savedWheel = savedWheelStr ? JSON.parse(savedWheelStr) : [];
         
-        // Remove duplicates and blanks
-        books = [...new Set(books.filter(b => b.trim() !== ''))];
-        
-        if (books.length === 0) {
-            books = ['Add books', 'to wishlist', 'to spin!'];
+        // Merge saved wheel data with current wishlist
+        wheelData = [];
+        wishlistTitles.forEach(title => {
+            const existing = savedWheel.find(w => w.title === title);
+            if (existing) {
+                wheelData.push(existing);
+            } else {
+                wheelData.push({ title: title, weight: defaultWeight });
+            }
+        });
+
+        if (wheelData.length === 0) {
+            wheelData = [
+                { title: 'Add wishlist books', weight: 100 }
+            ];
         }
+
+        renderCustomizer();
+    }
+
+    function saveWheelData() {
+        localStorage.setItem('wheelData', JSON.stringify(wheelData));
+        drawWheel(); // redraw immediately on change
+    }
+
+    function renderCustomizer() {
+        if(!configList) return;
+        configList.innerHTML = '';
+        if (wheelData.length === 1 && wheelData[0].title === 'Add wishlist books') {
+            configList.innerHTML = '<p style="text-align:center; color:#e74c3c;">Your wishlist is empty! Go back and add some books.</p>';
+            return;
+        }
+
+        wheelData.forEach((item, index) => {
+            const div = document.createElement('div');
+            div.className = 'book-config-item';
+            
+            div.innerHTML = `
+                <div class="book-config-title" title="${item.title}">${item.title}</div>
+                <div class="prob-input-group">
+                    <input type="number" min="1" max="100" value="${item.weight}" data-index="${index}" class="weight-input">
+                    <span>% / 100</span>
+                </div>
+                <button class="btn-delete" data-index="${index}" title="Remove from wheel">🗑️</button>
+            `;
+            configList.appendChild(div);
+        });
+
+        // Add event listeners for inputs
+        document.querySelectorAll('.weight-input').forEach(input => {
+            input.addEventListener('change', (e) => {
+                let val = parseInt(e.target.value);
+                if (isNaN(val) || val <= 0) val = 1;
+                if (val > 100) val = 100;
+                e.target.value = val;
+                
+                const idx = parseInt(e.target.getAttribute('data-index'));
+                wheelData[idx].weight = val;
+                saveWheelData();
+            });
+        });
+
+        // Add event listeners for delete buttons
+        document.querySelectorAll('.btn-delete').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const idx = parseInt(e.target.getAttribute('data-index'));
+                wheelData.splice(idx, 1);
+                if (wheelData.length === 0) {
+                    wheelData = [{ title: 'Add wishlist books', weight: 100 }];
+                }
+                saveWheelData();
+                renderCustomizer();
+            });
+        });
     }
 
     loadBooks();
 
-    const numSegments = books.length;
-    const arc = Math.PI / (numSegments / 2);
     let startAngle = 0;
     
     // Physics variables
@@ -44,35 +117,43 @@ document.addEventListener('DOMContentLoaded', () => {
         const centerY = canvas.height / 2;
         const radius = canvas.width / 2;
 
-        for (let i = 0; i < numSegments; i++) {
-            const angle = startAngle + i * arc;
+        const totalWeight = wheelData.reduce((sum, item) => sum + item.weight, 0);
+
+        let currentAngle = startAngle;
+
+        for (let i = 0; i < wheelData.length; i++) {
+            const item = wheelData[i];
+            const arcAngle = (item.weight / totalWeight) * 2 * Math.PI;
             
             ctx.beginPath();
             ctx.fillStyle = colors[i % colors.length];
             ctx.moveTo(centerX, centerY);
-            ctx.arc(centerX, centerY, radius, angle, angle + arc, false);
+            ctx.arc(centerX, centerY, radius, currentAngle, currentAngle + arcAngle, false);
             ctx.fill();
             ctx.save();
             
             // Add borders
             ctx.strokeStyle = '#fff';
-            ctx.lineWidth = 2;
+            ctx.lineWidth = 1;
             ctx.stroke();
 
             // Text
-            ctx.translate(centerX + Math.cos(angle + arc / 2) * (radius * 0.55), 
-                          centerY + Math.sin(angle + arc / 2) * (radius * 0.55));
-            ctx.rotate(angle + arc / 2);
+            const textAngle = currentAngle + arcAngle / 2;
+            ctx.translate(centerX + Math.cos(textAngle) * (radius * 0.55), 
+                          centerY + Math.sin(textAngle) * (radius * 0.55));
+            ctx.rotate(textAngle);
             ctx.fillStyle = '#fff';
             ctx.font = 'bold 14px "Space Grotesk", sans-serif';
             ctx.textAlign = 'center';
             
             // Truncate long titles
-            let text = books[i];
+            let text = item.title;
             if(text.length > 20) text = text.substring(0, 17) + '...';
             
             ctx.fillText(text, 0, 0);
             ctx.restore();
+            
+            currentAngle += arcAngle;
         }
     }
 
@@ -94,34 +175,41 @@ document.addEventListener('DOMContentLoaded', () => {
             spinVelocity = 0;
             
             // Determine result
-            // The pointer is at the top (which is -PI/2 relative to standard angles)
-            // Normalize startAngle
+            // Pointer is at the top, which is 3*PI/2 angle
             const normalizedStart = startAngle % (2 * Math.PI);
-            
-            // Pointer angle is effectively 0 at the top, but our drawing is standard Math.PI/2 offset.
-            // Let's calculate which segment is exactly at the top. Top is at angle 3*PI/2
             let pointerAngle = (3 * Math.PI / 2 - normalizedStart) % (2 * Math.PI);
             if (pointerAngle < 0) {
                 pointerAngle += 2 * Math.PI;
             }
             
-            const winningIndex = Math.floor(pointerAngle / arc);
+            const totalWeight = wheelData.reduce((sum, item) => sum + item.weight, 0);
             
-            resultDisplay.innerHTML = `You should read:<br><span style="color:#e74c3c">${books[winningIndex]}</span>! 📖`;
+            let currentAngleCheck = 0;
+            let winningIndex = 0;
+            for (let i = 0; i < wheelData.length; i++) {
+                const arcAngle = (wheelData[i].weight / totalWeight) * 2 * Math.PI;
+                if (pointerAngle >= currentAngleCheck && pointerAngle < currentAngleCheck + arcAngle) {
+                    winningIndex = i;
+                    break;
+                }
+                currentAngleCheck += arcAngle;
+            }
+            
+            resultDisplay.innerHTML = `You should read:<br><span style="color:#e0d0b8">${wheelData[winningIndex].title}</span>! 📖`;
             drawWheel(); // final frame
         }
     }
 
     spinBtn.addEventListener('click', () => {
         if (isSpinning) return;
-        if (books.length <= 1 && books[0] === 'Add books') {
+        if (wheelData.length <= 1 && wheelData[0].title === 'Add wishlist books') {
             resultDisplay.innerText = "Please add books to your wishlist first!";
             return;
         }
 
-        resultDisplay.innerText = "Spinning...";
+        resultDisplay.innerHTML = "Spinning...<br>&nbsp;";
         isSpinning = true;
-        // Random initial velocity between 0.3 and 0.6
+        // Random initial velocity
         spinVelocity = 0.3 + Math.random() * 0.3; 
         friction = 0.98; // reset friction
         animate();
