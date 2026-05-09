@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wheel of Reading 🎡</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Space+Grotesk:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        body {
+            background-color: #121212;
+            color: #fafff0;
+            background-image: none;
+        }
+        header {
+            background: rgba(30, 30, 30, 0.95);
+            background-image: linear-gradient(135deg, #1e1e1e, #2a2a2a);
+            border-bottom: 3px solid #6b8e23;
+            color: #fafff0;
+        }
+        .wheel-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin-top: 30px;
+        }
+        canvas {
+            display: block;
+            margin: 20px auto;
+            border-radius: 50%;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+            background: #2a2a2a;
+        }
+        .spin-btn {
+            background: linear-gradient(135deg, #6b8e23, #556b2f);
+            color: #fff;
+            font-size: 20px;
+            font-weight: 600;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 8px;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            transition: transform 0.2s;
+            margin: 20px;
+        }
+        .spin-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.4);
+        }
+        #resultDisplay {
+            font-family: 'Playfair Display', serif;
+            font-size: 28px;
+            font-weight: bold;
+            color: #e0d0b8;
+            margin-top: 20px;
+            min-height: 80px;
+            text-align: center;
+        }
+        .pointer {
+            width: 0; 
+            height: 0; 
+            border-left: 15px solid transparent;
+            border-right: 15px solid transparent;
+            border-top: 30px solid #e74c3c;
+            margin: 0 auto -15px auto;
+            position: relative;
+            z-index: 10;
+        }
+        .wheel-nav {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .wheel-nav a {
+            color: #8ab17d;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 18px;
+        }
+        .wheel-nav a:hover {
+            text-decoration: underline;
+        }
+        
+        /* Customizer Styles */
+        .customizer {
+            max-width: 600px;
+            margin: 40px auto;
+            background: #1e1e1e;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+            border: 1px solid #333;
+        }
+        .customizer h3 {
+            font-family: 'Playfair Display', serif;
+            color: #e0d0b8;
+            text-align: center;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #333;
+            padding-bottom: 10px;
+        }
+        .book-config-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: #2a2a2a;
+            padding: 10px 15px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            gap: 15px;
+        }
+        .book-config-title {
+            flex: 1;
+            font-weight: 600;
+            color: #e0d0b8;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+        .prob-input-group {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .prob-input-group input {
+            width: 60px;
+            padding: 5px;
+            border: 1px solid #444;
+            background: #121212;
+            color: #fff;
+            border-radius: 4px;
+            text-align: center;
+            font-family: 'Space Grotesk', sans-serif;
+        }
+        .prob-input-group span {
+            color: #aaa;
+            font-size: 14px;
+        }
+        .btn-delete {
+            background: #e74c3c;
+            color: white;
+            border: none;
+            width: 30px;
+            height: 30px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.2s;
+        }
+        .btn-delete:hover {
+            background: #c0392b;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    🎡 Wheel of Reading
+</header>
+
+<div class="container">
+    <div class="wheel-nav">
+        <a href="index.html">← Back to My Library</a>
+    </div>
+    
+    <div class="wheel-container">
+        <div class="pointer"></div>
+        <canvas id="wheelCanvas" width="400" height="400"></canvas>
+        <button id="spinBtn" class="spin-btn">Spin to pick next read!</button>
+        <div id="resultDisplay"></div>
+    </div>
+
+    <div class="customizer">
+        <h3>Wheel Customizer (Wishlist Only)</h3>
+        <p style="text-align: center; color: #888; font-size: 14px; margin-bottom: 20px;">
+            Set probabilities out of 100. Higher values = bigger slice!<br>
+            Changes here are saved locally for your spins.
+        </p>
+        <div id="bookConfigList">
+            <!-- Populated by JS -->
+        </div>
+    </div>
+</div>
+
+<script src="js/wheel.js"></script>
+</body>
+</html>
