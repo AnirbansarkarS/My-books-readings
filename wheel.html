@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wheel of Reading 🎡</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Space+Grotesk:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .wheel-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin-top: 50px;
+        }
+        canvas {
+            display: block;
+            margin: 20px auto;
+            border-radius: 50%;
+            box-shadow: 0 10px 25px rgba(92, 78, 62, 0.2);
+        }
+        .spin-btn {
+            background: linear-gradient(135deg, #6b8e23, #556b2f);
+            color: #fff;
+            font-size: 20px;
+            font-weight: 600;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 8px;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            transition: transform 0.2s;
+            margin: 20px;
+        }
+        .spin-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.25);
+        }
+        #resultDisplay {
+            font-family: 'Playfair Display', serif;
+            font-size: 28px;
+            font-weight: bold;
+            color: #4a3f35;
+            margin-top: 20px;
+            min-height: 40px;
+            text-align: center;
+        }
+        .pointer {
+            width: 0; 
+            height: 0; 
+            border-left: 15px solid transparent;
+            border-right: 15px solid transparent;
+            border-top: 30px solid #e74c3c;
+            margin: 0 auto -15px auto;
+            position: relative;
+            z-index: 10;
+        }
+        .wheel-nav {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .wheel-nav a {
+            color: #6b8e23;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        .wheel-nav a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    🎡 Wheel of Reading
+    <button id="themeToggleBtn" class="theme-btn" title="Toggle Dark/Light Mode">🌙</button>
+</header>
+
+<div class="container">
+    <div class="wheel-nav">
+        <a href="index.html">← Back to My Library</a>
+    </div>
+    
+    <div class="wheel-container">
+        <div class="pointer"></div>
+        <canvas id="wheelCanvas" width="400" height="400"></canvas>
+        <button id="spinBtn" class="spin-btn">Spin to pick next read!</button>
+        <div id="resultDisplay"></div>
+    </div>
+</div>
+
+<script src="js/wheel.js"></script>
+</body>
+</html>
