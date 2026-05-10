@@ -42,21 +42,39 @@ document.addEventListener('DOMContentLoaded', () => {
             // We have saved data, overwrite the HTML defaults
             const db = JSON.parse(dbString);
             
+            if (db.best && db.best.length > 0) {
+                renderBooks('bestReadsList', db.best);
+            } else {
+                document.querySelectorAll('#bestReadsList .book').forEach(book => addBookActions(book));
+                saveDatabase();
+            }
             renderBooks('completedBooksList', db.completed);
             renderBooks('readingBooksList', db.reading);
             renderBooks('upcomingBooksList', db.upcoming);
             renderBooks('somedayBooksList', db.someday);
         } else {
-            // First time loading: sync the existing HTML into the DB
-            // Then add action buttons and progress bars to them
-            document.querySelectorAll('.book').forEach(book => {
-                addBookActions(book);
-                if (book.hasAttribute('data-progress')) {
-                    initProgressBar(book);
-                }
-            });
-            // Also merge the old "myUpcomingBooks" if migrating from old version
-            migrateOldStorage();
+            // Fallback: fetch from db.json if available
+            fetch('db.json')
+                .then(response => response.json())
+                .then(db => {
+                    renderBooks('bestReadsList', db.best || []);
+                    renderBooks('completedBooksList', db.completed || []);
+                    renderBooks('readingBooksList', db.reading || []);
+                    renderBooks('upcomingBooksList', db.upcoming || []);
+                    renderBooks('somedayBooksList', db.someday || []);
+                    saveDatabase(); // Save the fetched data to LocalStorage
+                })
+                .catch(error => {
+                    // First time loading error: sync the existing HTML into the DB
+                    document.querySelectorAll('.book').forEach(book => {
+                        addBookActions(book);
+                        if (book.hasAttribute('data-progress')) {
+                            initProgressBar(book);
+                        }
+                    });
+                    // Also merge the old "myUpcomingBooks" if migrating from old version
+                    migrateOldStorage();
+                });
         }
     }
     
@@ -265,6 +283,58 @@ document.addEventListener('DOMContentLoaded', () => {
                 titleInput.value = '';
                 coverInput.value = '';
             }
+        });
+    }
+
+    // --- Export / Import Backup Feature ---
+    const exportBtn = document.getElementById('exportBtn');
+    if (exportBtn) {
+        exportBtn.addEventListener('click', () => {
+            const dbString = localStorage.getItem('myBooksDB');
+            if (!dbString) return alert("Nothing to export!");
+            
+            const blob = new Blob([dbString], { type: "application/json" });
+            const url = URL.createObjectURL(blob);
+            
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'db.json';
+            a.click();
+            
+            URL.revokeObjectURL(url);
+        });
+    }
+
+    const importBtn = document.getElementById('importBtn');
+    const importFile = document.getElementById('importFile');
+    
+    if (importBtn && importFile) {
+        importBtn.addEventListener('click', () => {
+            importFile.click();
+        });
+        
+        importFile.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (!file) return;
+            
+            const reader = new FileReader();
+            reader.onload = function(event) {
+                try {
+                    const parsedData = JSON.parse(event.target.result);
+                    
+                    // Validate basic structure
+                    if (parsedData.completed || parsedData.upcoming) {
+                        localStorage.setItem('myBooksDB', JSON.stringify(parsedData));
+                        alert('Backup successfully imported! Reloading the page...');
+                        window.location.reload();
+                    } else {
+                        alert('Error: The file does not look like a valid db.json backup.');
+                    }
+                } catch (err) {
+                    alert('Error parsing JSON backup file.');
+                }
+            };
+            reader.readAsText(file);
         });
     }
 

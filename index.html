@@ -13,10 +13,14 @@
 
 <header>
     📖 My Cozy Reading Journey
+    <button id="importBtn" class="backup-btn import-btn" title="Import Backup (db.json)">📂</button>
+    <button id="exportBtn" class="backup-btn export-btn" title="Export Backup (db.json)">💾</button>
+    <button id="bestReadsBtn" class="bestreads-btn" title="Best Reads">🌟</button>
     <button id="themeToggleBtn" class="theme-btn" title="Toggle Dark/Light Mode">🌙</button>
     <button id="wheelBtn" class="wheel-btn" title="Spin the Wheel" onclick="window.location.href='wheel.html'">🎡</button>
     <button id="openWishlistBtn" class="wishlist-btn" title="Open Wishlist">☰</button>
 </header>
+<input type="file" id="importFile" accept=".json" style="display: none;">
 
 <div class="container">
 

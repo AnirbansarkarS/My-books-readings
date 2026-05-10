@@ -1,0 +1,67 @@
+{
+  "best": [
+    {
+      "title": "Days at the Morisaki Bookshop",
+      "cover": "images/days at morisaki 1.png",
+      "date": "March 2026",
+      "stars": "⭐⭐⭐⭐⭐",
+      "progress": null
+    },
+    {
+      "title": "Siddhartha",
+      "cover": "images/sidhhartha.png",
+      "date": "April 2026",
+      "stars": "⭐⭐⭐⭐½",
+      "progress": null
+    },
+    {
+      "title": "Animal Farm",
+      "cover": "images/animalfarm.png",
+      "date": "Feb 2026",
+      "stars": "⭐⭐⭐⭐",
+      "progress": null
+    }
+  ],
+  "completed": [
+    {
+      "title": "The Old Man and the Sea",
+      "cover": "images/old man and the sea.png",
+      "date": "March 2026",
+      "progress": null
+    },
+    {
+      "title": "Notes from Underground",
+      "cover": "images/notes fromunderground.png",
+      "date": "May 2026",
+      "progress": null
+    },
+    {
+      "title": "And Then There Were None",
+      "cover": "images/andthenthereweernone.png",
+      "date": "May 2026",
+      "progress": null
+    },
+    {
+      "title": "The Metamorphosis",
+      "cover": "images/metamorphosis.png",
+      "date": "May 2026",
+      "progress": null
+    }
+  ],
+  "reading": [],
+  "upcoming": [
+    {
+      "title": "Ruskin Bond Collection",
+      "cover": "https://covers.openlibrary.org/b/id/7984916-L.jpg",
+      "date": "Upcoming",
+      "progress": null
+    },
+    {
+      "title": "Harry Potter 1",
+      "cover": "https://covers.openlibrary.org/b/id/7984915-L.jpg",
+      "date": "Upcoming",
+      "progress": null
+    }
+  ],
+  "someday": []
+}
