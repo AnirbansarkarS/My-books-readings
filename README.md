@@ -1,2 +1,3 @@
 # My-books-readings
-list of my reading journey 
+
+This is my personal project to just track my reading.
